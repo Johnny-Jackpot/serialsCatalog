@@ -200,7 +200,7 @@ class AdminController {
         if ($errors) { return renderForm($fields, $errors); }
         
         $result = AdminCreate::addNewEpisode($fields, $serialId, $seasonId);
-        var_dump($result);
+        //var_dump($result);
         if (!$result) {
             $errors[] = 'Не вдалось додати сезон. Перевірте дані.';
             return renderForm($fields, $errors);

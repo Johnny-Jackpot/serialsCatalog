@@ -13,14 +13,21 @@ class Catalog {
      */
     public static function getCatalog() {
         $db = Db::getConnection();
-        $sql = "SELECT id, name FROM serials ORDER BY id DESC LIMIT "
-                . self::SERIALS_PER_PAGE;
+        $sql = "SELECT serials.id, serials.name "
+                . " FROM serials JOIN episodes "
+                . " WHERE serials.id = episodes.serialId "
+                . " ORDER BY added DESC";
+                
         $result = $db->query($sql);
         $result->setFetchMode(PDO::FETCH_ASSOC);
 
         $serials = [];
         $i = 0;
         while ($row = $result->fetch()) {
+            if ($i && $row['id'] == $serials[$i - 1]['id']) {
+                continue;
+            }
+            
             $serials[$i] = [];
             $serials[$i]['id'] = $row['id'];
             $serials[$i]['name'] = $row['name'];

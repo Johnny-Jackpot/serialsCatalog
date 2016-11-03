@@ -134,5 +134,20 @@ class AdminCreate {
         
         return $result->execute();
     }
+    
+    /**
+     * Update date/time of last episode added for sorting serials on the main
+     * page
+     * @param int $serialId
+     * @return bool
+     */
+    public static function updateSerial($serialId) {
+        $db = Db::getConnection();
+        $sql = "UPDATE serials SET lastEpisodeAdded = NOW() WHERE id = :serialId";
+        $result = $db->prepare($sql);
+        $result->bindParam(':serialId', $serialId, PDO::PARAM_INT);
+        
+        return $result->execute();
+    }
 
 }

@@ -202,7 +202,15 @@ class AdminController {
         $result = AdminCreate::addNewEpisode($fields, $serialId, $seasonId);
         //var_dump($result);
         if (!$result) {
-            $errors[] = 'Не вдалось додати сезон. Перевірте дані.';
+            $errors[] = 'Не вдалось додати серію. Перевірте дані.';
+            return renderForm($fields, $errors);
+        }
+        
+        $serialUpdated = AdminCreate::updateSerial($serialId);
+        if (!$serialUpdated) {
+            $errors[] = 'Серію додано. '
+                    . 'Але не вдалось оновити дату останньої доданої серії. '
+                    . 'Порядок сортування серіалів на головній сторінці НЕ буде змінено.';
             return renderForm($fields, $errors);
         }
         
